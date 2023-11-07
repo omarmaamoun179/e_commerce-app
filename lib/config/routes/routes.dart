@@ -47,20 +47,20 @@ class AppRoutes {
           builder: (context) => MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (context) => HomeCubit(
-                    GetCategoriesRemote(),
-                    RemoteGetPrandsDataSorce(),
-                    RemoteGetFav(),
-                    RemoteProductDataSource(),
-                    RemoteAddToFav(),
-                    RemoteCartsDataSource(),
-                    RemoteAddTocartDataSource())
-                  ..getPrands()
-                  ..getCategory()
-                  ..getProduct()
-                  ..getFavorite()
-                  ..getCart(),
-              ),
+                  create: (context) => HomeCubit(
+                        GetCategoriesRemote(),
+                        RemoteGetPrandsDataSorce(),
+                        RemoteGetFav(),
+                        RemoteProductDataSource(),
+                        RemoteAddToFav(),
+                        RemoteCartsDataSource(),
+                        RemoteAddTocartDataSource(),
+                      )
+                        ..getPrands()
+                        ..getCategory()
+                        ..getProduct()
+                        ..getFavorite()
+                        ..getCart()),
             ],
             child: const HomeScreen(),
           ),
@@ -75,14 +75,14 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
             create: (context) => HomeCubit(
-                GetCategoriesRemote(),
-                RemoteGetPrandsDataSorce(),
-                RemoteGetFav(),
-                RemoteProductDataSource(),
-                RemoteAddToFav(),
-                RemoteCartsDataSource(),
-                RemoteAddTocartDataSource())
-              ..getCart(),
+              GetCategoriesRemote(),
+              RemoteGetPrandsDataSorce(),
+              RemoteGetFav(),
+              RemoteProductDataSource(),
+              RemoteAddToFav(),
+              RemoteCartsDataSource(),
+              RemoteAddTocartDataSource(),
+            )..getCart(),
             child: const CartsScreen(),
           ),
         );

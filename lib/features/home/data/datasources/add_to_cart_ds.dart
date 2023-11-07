@@ -4,7 +4,7 @@ import 'package:e_commerce/core/api/api_manager.dart';
 import 'package:e_commerce/core/api/end_pints.dart';
 import 'package:e_commerce/core/error/failures.dart';
 import 'package:e_commerce/core/utils/constant.dart';
-import 'package:e_commerce/features/home/data/models/add_to_cart_model/add_to_cart_model.dart';
+import 'package:e_commerce/features/home/data/models/carts_model/add_to_cart_model/add_to_cart_model.dart';
 
 abstract class AddToCartDataSource {
   Future<Either<Falirues, AddToCartModel>> addToCart(int id);

@@ -1,3 +1,4 @@
+
 import 'package:e_commerce/features/home/data/datasources/add_to_cart_ds.dart';
 import 'package:e_commerce/features/home/data/datasources/add_to_fav_ds.dart';
 import 'package:e_commerce/features/home/data/datasources/get_cart_ds.dart';
@@ -58,8 +59,10 @@ class HomeCubit extends Cubit<HomeState> {
       this.getProductDataSource,
       this.addToFavDataSource,
       this.cartsDataSource,
-      this.addToCartDataSource)
+      this.addToCartDataSource
+  )
       : super(HomeInitial());
+
   static HomeCubit get(context) => BlocProvider.of(context);
   int currentIndex = 0;
   int activeindex = 0;
@@ -232,6 +235,8 @@ class HomeCubit extends Cubit<HomeState> {
     });
   }
 
+
+
   getCart() async {
     GetCartsDomainRepo getCartsDomainRepo = GetCartsDataRepo(cartsDataSource);
     CartsUseCase cartsUseCase = CartsUseCase(getCartsDomainRepo);
@@ -262,7 +267,7 @@ class HomeCubit extends Cubit<HomeState> {
         HomeAddToCartError(l),
       );
     }, (r) {
-      getCart();
+      
       return emit(
         HomeAddToCartSuccess(r),
       );

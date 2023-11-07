@@ -93,11 +93,11 @@ class ProductItem extends StatelessWidget {
                         alignment: Alignment.topRight,
                         child: IconButton(
                             onPressed: () {
-                             HomeCubit.get(context).addToCart(model.id!);
+                            HomeCubit.get(context).addToCart(model.id!);
                             },
                             icon: CircleAvatar(
                               backgroundColor:
-                                  HomeCubit.get(context).cart[model.id]!
+                                HomeCubit.get(context).cart[model.id]!
                                       ? const Color(0xff004182)
                                       : Colors.white,
                               radius: 15.r,
