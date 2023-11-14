@@ -2,7 +2,7 @@ import 'package:e_commerce/core/error/failures.dart';
 import 'package:e_commerce/features/home/domain/entities/add_to_cart_entity/add_to_cart_entity.dart';
 import 'package:e_commerce/features/home/domain/entities/add_to_fav_entity/add_to_fav_entity.dart';
 import 'package:e_commerce/features/home/domain/entities/fav_entity/fav_entity.dart';
-import 'package:e_commerce/features/home/domain/entities/get_categories_entity/get_categories_entity.dart';
+import 'package:e_commerce/features/home/domain/entities/get_categories_entity/get_categories_entity/get_categories_entity.dart';
 import 'package:e_commerce/features/home/domain/entities/get_prands/get_prands.dart';
 import 'package:e_commerce/features/home/domain/entities/product_entity/product_entity.dart';
 import 'package:e_commerce/features/home/domain/entities/update_user_entity/update_user_entity.dart';
@@ -103,7 +103,7 @@ class HomeGetUserSuccess extends HomeState {
 }
 
 class UpdateUserSuccess {
- UpdateUserEntity userModel;
+  UpdateUserEntity userModel;
   UpdateUserSuccess(this.userModel);
 }
 
@@ -111,3 +111,12 @@ class UpdateUserError {
   Falirues message;
   UpdateUserError(this.message);
 }
+class GetProductByCategorySuccess extends HomeState {
+  ProductEntity model;
+  GetProductByCategorySuccess(this.model);
+}
+class GetProductByCategoryError extends HomeState {
+  Falirues message;
+  GetProductByCategoryError(this.message);
+}
+class GetProductByCategoryLoading extends HomeState {}

@@ -17,7 +17,7 @@ import 'package:e_commerce/features/home/data/repositories/get_prouct_data_repo.
 import 'package:e_commerce/features/home/data/repositories/get_user_data_repo.dart';
 import 'package:e_commerce/features/home/data/repositories/update_profile_data_repo.dart';
 import 'package:e_commerce/features/home/domain/entities/fav_entity/datum.dart';
-import 'package:e_commerce/features/home/domain/entities/get_categories_entity/get_categories_entity.dart';
+import 'package:e_commerce/features/home/domain/entities/get_categories_entity/get_categories_entity/datum.dart';
 import 'package:e_commerce/features/home/domain/entities/get_prands/datum.dart';
 import 'package:e_commerce/features/home/domain/entities/product_entity/datum.dart';
 import 'package:e_commerce/features/home/domain/entities/update_data.dart';
@@ -57,6 +57,7 @@ class HomeCubit extends Cubit<HomeState> {
   AddToCartDataSource addToCartDataSource;
   GetUserDataSource getUserDataSource;
   UpdateProfileDs updateProfileDs;
+  GetCategoriesDetailsDataSource getCategoriesDetailsDataSource;
 
   HomeCubit(
       this.getCategoriesDataSource,
@@ -67,14 +68,17 @@ class HomeCubit extends Cubit<HomeState> {
       // this.cartsDataSource,
       this.addToCartDataSource,
       this.getUserDataSource,
-      this.updateProfileDs)
+      this.updateProfileDs , 
+      
+      this.getCategoriesDetailsDataSource
+      )
       : super(HomeInitial());
 
   static HomeCubit get(context) => BlocProvider.of(context);
   int currentIndex = 0;
   int activeindex = 0;
   int tabindex = 0;
-  List<DatumCategoriesEntity>? catategories = [];
+  List<DatumCategoriesEntity> catategories = [];
   List<DatumPrandsEntity>? prands = [];
   List<DatumProdcutEntity>? products = [];
   List<DatumFavEntity> favourites = [];
@@ -92,6 +96,7 @@ class HomeCubit extends Cubit<HomeState> {
   List<CategoryImage> menFashion = [
     CategoryImage(
       imagePath: 'assets/images/men_fashion.png',
+      text: '',
     ),
     CategoryImage(
       imagePath: 'assets/images/shorts.png',
@@ -109,26 +114,23 @@ class HomeCubit extends Cubit<HomeState> {
       imagePath: 'assets/images/footwear.png',
       text: 'Shoes',
     ),
-    CategoryImage(
-      imagePath: 'assets/images/watches.png',
-      text: 'Watches',
-    ),
-    CategoryImage(
-      imagePath: 'assets/images/pants.png',
-      text: 'Bags',
-    ),
-    CategoryImage(
-      imagePath: 'assets/images/suits.png',
-      text: 'Suits',
-    ),
-    CategoryImage(
-      imagePath: 'assets/images/bags.png',
-      text: 'Bags',
-    ),
-    CategoryImage(
-      imagePath: 'assets/images/glasses.png',
-      text: 'Eyewear',
-    ),
+
+    // CategoryImage(
+    //   imagePath: 'assets/images/pants.png',
+    //   text: 'Bags',
+    // ),
+    // CategoryImage(
+    //   imagePath: 'assets/images/suits.png',
+    //   text: 'Suits',
+    // ),
+    // CategoryImage(
+    //   imagePath: 'assets/images/bags.png',
+    //   text: 'Bags',
+    // ),
+    // CategoryImage(
+    //   imagePath: 'assets/images/glasses.png',
+    //   text: 'Eyewear',
+    // ),
   ];
   List<Widget> screens = [
     const HomeView(),
@@ -163,8 +165,20 @@ class HomeCubit extends Cubit<HomeState> {
         GetCategoriesUseCase(getCategroirsDomainRepo);
     var result = await getCategoriesUseCase.call();
     result.fold((l) => emit(HomeGetCategoriesError(l)), (r) {
-      catategories = r.data ?? [];
+      catategories = r.data?.data ?? [];
       return emit(HomeGetCategoriesSuccess(r));
+    });
+  }
+  getCategoryDetails(int id) async {
+    emit(HomeLoading());
+    GetCategroirsDetailsDomainRepo getCategroirsDetailsDomainRepo =
+        GetCategoriesDetailsDataRepo(getCategoriesDetailsDataSource);
+    GetCategorieDetailsUseCase getCategoriesDetailsUseCase =
+        GetCategorieDetailsUseCase(getCategroirsDetailsDomainRepo);
+    var result = await getCategoriesDetailsUseCase.call(id);
+    result.fold((l) => emit(GetProductByCategoryError(l)), (r) {
+      products = r.data?.data ?? [];
+      return emit(GetProductByCategorySuccess(r));
     });
   }
 

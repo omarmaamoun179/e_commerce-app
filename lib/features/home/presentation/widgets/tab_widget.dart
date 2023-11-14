@@ -10,8 +10,8 @@ class TabsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 80.h,
-      width: 137.w,
-      margin: const EdgeInsets.all(15),
+      width: 150.w,
+      margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
       ),

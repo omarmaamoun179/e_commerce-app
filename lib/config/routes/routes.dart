@@ -59,6 +59,7 @@ class AppRoutes {
                         RemoteAddToCart(),
                         RemoteGetUserDataSource(),
                         RemoteUpdateProfileDs(),
+                         GetCategoriesDetailsRemote(),
                       )
                         ..getPrands()
                         ..getCategory()
@@ -97,6 +98,7 @@ class AppRoutes {
                         RemoteAddToCart(),
                         RemoteGetUserDataSource(),
                         RemoteUpdateProfileDs(),
+                         GetCategoriesDetailsRemote(),
                       )
                         ..getPrands()
                         ..getCategory()

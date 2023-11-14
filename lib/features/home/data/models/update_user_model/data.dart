@@ -1,8 +1,6 @@
 import 'package:e_commerce/features/home/domain/entities/update_user_entity/data.dart';
 
 class UpdateUserDataModel extends UpdateUserDataEntity {
-
-
   UpdateUserDataModel({
     super.id,
     super.name,
@@ -14,7 +12,8 @@ class UpdateUserDataModel extends UpdateUserDataEntity {
     super.token,
   });
 
-  factory UpdateUserDataModel.fromJson(Map<String, dynamic> json) => UpdateUserDataModel(
+  factory UpdateUserDataModel.fromJson(Map<String, dynamic> json) =>
+      UpdateUserDataModel(
         id: json['id'] as int?,
         name: json['name'] as String?,
         email: json['email'] as String?,

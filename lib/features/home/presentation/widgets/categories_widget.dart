@@ -3,6 +3,7 @@ import 'package:e_commerce/features/home/presentation/cubit/home_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CategoriesWidget extends StatelessWidget {
   const CategoriesWidget({
@@ -13,7 +14,7 @@ class CategoriesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        return HomeCubit.get(context).catategories!.isEmpty
+        return HomeCubit.get(context).catategories.isEmpty
             ? const Center(child: CircularProgressIndicator())
             : SizedBox(
                 height: 220.h,
@@ -26,30 +27,32 @@ class CategoriesWidget extends StatelessWidget {
                       childAspectRatio: .8,
                       crossAxisSpacing: .8,
                       mainAxisSpacing: .8),
-                  itemCount: HomeCubit.get(context).catategories!.length,
+                  itemCount: HomeCubit.get(context).catategories.length,
                   itemBuilder: (context, index) {
                     return Column(
                       children: [
                         CircleAvatar(
                           radius: 45.r,
-                          foregroundColor: Colors.blue,
+                          backgroundColor: Colors.white,
                           child: CircleAvatar(
-                            radius: 40.r,
+                            radius: 50.r,
                             backgroundImage: Image.network(
                               HomeCubit.get(context)
-                                      .catategories![index]
+                                      .catategories[index]
                                       .image ??
                                   '',
                             ).image,
                           ),
                         ),
-                        Text(
-                          overflow: TextOverflow.ellipsis,
-                          HomeCubit.get(context).catategories![index].name ??
-                              '',
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
+                        Expanded(
+                          child: Text(
+                            overflow: TextOverflow.ellipsis,
+                            HomeCubit.get(context).catategories[index].name ??
+                                '',
+                            style: GoogleFonts.poppins(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
                       ],

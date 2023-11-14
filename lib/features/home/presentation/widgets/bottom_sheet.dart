@@ -33,11 +33,11 @@ class _UpdateUserWidgetState extends State<UpdateUserWidget> {
         RemoteAddToCart(),
         RemoteGetUserDataSource(),
         RemoteUpdateProfileDs(),
+        GetCategoriesDetailsRemote(),
       ),
       child: BlocConsumer<HomeCubit, HomeState>(
         listener: (context, state) {
           if (state is UpdateUserSuccess) {
-           
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('Profile Updated Successfully'),

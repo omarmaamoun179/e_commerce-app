@@ -2,9 +2,7 @@ import 'package:e_commerce/features/home/domain/entities/update_user_entity/upda
 
 import 'data.dart';
 
-class UpdateUserModel  extends UpdateUserEntity{
-
-
+class UpdateUserModel extends UpdateUserEntity {
   UpdateUserModel({super.status, super.message, super.data});
 
   factory UpdateUserModel.fromJson(Map<String, dynamic> json) {
