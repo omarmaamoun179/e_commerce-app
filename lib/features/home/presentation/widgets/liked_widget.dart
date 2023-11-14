@@ -12,7 +12,18 @@ class LikedWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit, HomeState>(
+    return BlocConsumer<HomeCubit, HomeState>(
+      listener: (context, state) {
+        if (state is HomeAddToCartLoading) {
+          const Center(child: CircularProgressIndicator());
+        } else if (state is HomeAddToCartSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.CartEntity.message.toString()),
+            ),
+          );
+        }
+      },
       builder: (context, state) {
         if (state is HomeGetFavLoading) {
           return const Center(child: CircularProgressIndicator());
@@ -26,7 +37,7 @@ class LikedWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(15),
               border: Border.all(
                 color: const Color(0xff004182),
-                width: 1,
+                width: 1.w,
               ),
             ),
             child: Row(
@@ -39,60 +50,55 @@ class LikedWidget extends StatelessWidget {
                     height: 113.h,
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10.w,
-                  ),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        width: 135.w,
-                        height: 80.h,
-                        child: ListView(
-                          children: [
-                            Text(
-                              textAlign: TextAlign.left,
-                              maxLines: 2,
-                              product!.product!.name ?? '',
-                              style: GoogleFonts.poppins(
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Row(
+                Column(
+                  children: [
+                    SizedBox(
+                      width: 135.w,
+                      height: 80.h,
+                      child: ListView(
                         children: [
-                          SizedBox(
-                            width: 82.w,
-                            height: 25.h,
-                            child: Text(
-                              maxLines: 1,
-                              product!.product!.price.toString() ?? '',
-                              style: GoogleFonts.poppins(
-                                fontSize: 18.sp,
-                                color: const Color(0xff004182),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 73.w,
-                            height: 18.h,
-                            child: Text(
-                              maxLines: 1,
-                              product!.product!.oldPrice.toString() ?? '',
-                              style: GoogleFonts.poppins(
-                                fontSize: 11.sp,
-                                color: const Color(0xff004182),
-                                decoration: TextDecoration.lineThrough,
-                              ),
+                          Text(
+                            textAlign: TextAlign.left,
+                            maxLines: 2,
+                            product!.product!.name ?? '',
+                            style: GoogleFonts.poppins(
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 82.w,
+                          height: 25.h,
+                          child: Text(
+                            maxLines: 1,
+                            product!.product!.price.toString() ?? '',
+                            style: GoogleFonts.poppins(
+                              fontSize: 18.sp,
+                              color: const Color(0xff004182),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 73.w,
+                          height: 18.h,
+                          child: Text(
+                            maxLines: 1,
+                            product!.product!.oldPrice.toString() ?? '',
+                            style: GoogleFonts.poppins(
+                              fontSize: 11.sp,
+                              color: const Color(0xff004182),
+                              decoration: TextDecoration.lineThrough,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -111,11 +117,14 @@ class LikedWidget extends StatelessWidget {
                       ),
                     ),
                     ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          HomeCubit.get(context)
+                              .changeCart(product!.product!.id, context);
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xff004182),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                         ),
                         child: const Text('add to cart')),

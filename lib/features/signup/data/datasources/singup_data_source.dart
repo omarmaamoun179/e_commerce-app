@@ -17,11 +17,11 @@ class RemoteSignUpDataSource implements SignUpDataSource {
   Future<Either<Falirues, SingupModel>> singup(singUpData) async {
     try {
       Response response =
-          await dio.post('https://student.valuxapps.com/api/register', data: {
+          await dio.post('${Constant.baseUrl}${EndPoints.signUp}', data: {
         "name": singUpData.name,
         "email": singUpData.email,
         "password": singUpData.password,
-        "rePassword": singUpData.passwordConfirmation,
+        // "rePassword": singUpData.passwordConfirmation,
         "phone": singUpData.phone,
       });
       SingupModel singupModel = SingupModel.fromJson(response.data);

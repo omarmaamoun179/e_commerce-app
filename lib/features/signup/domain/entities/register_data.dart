@@ -3,13 +3,13 @@ class SingUpData {
   String name;
   String email;
   String password;
-  String passwordConfirmation;
+  // String passwordConfirmation;
   String phone;
   SingUpData({
     required this.name,
     required this.email,
     required this.password,
-    required this.passwordConfirmation,
+    // required this.passwordConfirmation,
     required this.phone,
   });
 }

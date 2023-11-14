@@ -1,13 +1,16 @@
+import 'package:e_commerce/features/cart/data/datasources/get_cart_data_source.dart';
+import 'package:e_commerce/features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:e_commerce/features/cart/presentation/pages/cart_screen.dart';
 import 'package:e_commerce/features/home/data/datasources/add_to_cart_ds.dart';
 import 'package:e_commerce/features/home/data/datasources/add_to_fav_ds.dart';
-import 'package:e_commerce/features/home/data/datasources/get_cart_ds.dart';
 import 'package:e_commerce/features/home/data/datasources/get_categories_data.dart';
 import 'package:e_commerce/features/home/data/datasources/get_fav_ds.dart';
 import 'package:e_commerce/features/home/data/datasources/get_prand_ds.dart';
+import 'package:e_commerce/features/home/data/datasources/get_user_ds.dart';
 import 'package:e_commerce/features/home/data/datasources/product_data_sourec.dart';
+import 'package:e_commerce/features/home/data/datasources/update_profile_ds.dart';
 import 'package:e_commerce/features/home/data/models/product_model/datum.dart';
 import 'package:e_commerce/features/home/presentation/cubit/home_cubit.dart';
-import 'package:e_commerce/features/home/presentation/pages/cart_screen.dart';
 import 'package:e_commerce/features/home/presentation/pages/home_layout.dart';
 import 'package:e_commerce/features/login/data/datasources/login_data_source.dart';
 import 'package:e_commerce/features/login/presentation/cubit/login_cubit.dart';
@@ -53,14 +56,19 @@ class AppRoutes {
                         RemoteGetFav(),
                         RemoteProductDataSource(),
                         RemoteAddToFav(),
-                        RemoteCartsDataSource(),
-                        RemoteAddTocartDataSource(),
+                        RemoteAddToCart(),
+                        RemoteGetUserDataSource(),
+                        RemoteUpdateProfileDs(),
                       )
                         ..getPrands()
                         ..getCategory()
                         ..getProduct()
                         ..getFavorite()
-                        ..getCart()),
+                        ..getUserData()),
+              BlocProvider(
+                create: (context) =>
+                    CartCubit(RemoteGetCartDataSource())..getCart(),
+              ),
             ],
             child: const HomeScreen(),
           ),
@@ -73,16 +81,28 @@ class AppRoutes {
         );
       case Routes.cart:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => HomeCubit(
-              GetCategoriesRemote(),
-              RemoteGetPrandsDataSorce(),
-              RemoteGetFav(),
-              RemoteProductDataSource(),
-              RemoteAddToFav(),
-              RemoteCartsDataSource(),
-              RemoteAddTocartDataSource(),
-            )..getCart(),
+          builder: (context) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) =>
+                    CartCubit(RemoteGetCartDataSource())..getCart(),
+              ),
+              BlocProvider(
+                  create: (context) => HomeCubit(
+                        GetCategoriesRemote(),
+                        RemoteGetPrandsDataSorce(),
+                        RemoteGetFav(),
+                        RemoteProductDataSource(),
+                        RemoteAddToFav(),
+                        RemoteAddToCart(),
+                        RemoteGetUserDataSource(),
+                        RemoteUpdateProfileDs(),
+                      )
+                        ..getPrands()
+                        ..getCategory()
+                        ..getProduct()
+                        ..getFavorite()),
+            ],
             child: const CartsScreen(),
           ),
         );

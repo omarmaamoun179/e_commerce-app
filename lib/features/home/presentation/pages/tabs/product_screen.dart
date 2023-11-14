@@ -2,7 +2,6 @@ import 'package:e_commerce/config/routes/routes.dart';
 import 'package:e_commerce/core/utils/cashe_helper.dart';
 import 'package:e_commerce/features/home/presentation/cubit/home_cubit.dart';
 import 'package:e_commerce/features/home/presentation/cubit/home_state.dart';
-import 'package:e_commerce/features/home/presentation/pages/tabs/home_view.dart';
 import 'package:e_commerce/features/home/presentation/widgets/product_item.dart';
 import 'package:e_commerce/features/home/presentation/widgets/searc_widget.dart';
 import 'package:flutter/material.dart';
@@ -76,24 +75,24 @@ class ProductScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: GridView.count(
-                      padding: const EdgeInsets.all(8.0),
-                      crossAxisCount: 2,
-                      childAspectRatio: 4 / 5,
-                      crossAxisSpacing: 20.w,
-                      mainAxisSpacing: 10.h,
-                      shrinkWrap: true,
-                      children: HomeCubit.get(context)
-                          .products!
-                          .map((e) => InkWell(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, Routes.prodductDetails,
-                                    arguments: e);
-                              },
-                              child: ProductItem(e , 
-                              )))
-                          .toList()
-                    ),
+                        padding: const EdgeInsets.all(8.0),
+                        crossAxisCount: 2,
+                        childAspectRatio: 4 / 5,
+                        crossAxisSpacing: 20.w,
+                        mainAxisSpacing: 10.h,
+                        shrinkWrap: true,
+                        children: HomeCubit.get(context)
+                            .products!
+                            .map((e) => InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, Routes.prodductDetails,
+                                      arguments: e);
+                                },
+                                child: ProductItem(
+                                  e,
+                                )))
+                            .toList()),
                   ),
                 ],
               );

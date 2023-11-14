@@ -1,39 +1,43 @@
-
+import 'package:e_commerce/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:e_commerce/features/home/data/datasources/add_to_cart_ds.dart';
 import 'package:e_commerce/features/home/data/datasources/add_to_fav_ds.dart';
-import 'package:e_commerce/features/home/data/datasources/get_cart_ds.dart';
 import 'package:e_commerce/features/home/data/datasources/get_categories_data.dart';
 import 'package:e_commerce/features/home/data/datasources/get_fav_ds.dart';
 import 'package:e_commerce/features/home/data/datasources/get_prand_ds.dart';
+import 'package:e_commerce/features/home/data/datasources/get_user_ds.dart';
 import 'package:e_commerce/features/home/data/datasources/product_data_sourec.dart';
+import 'package:e_commerce/features/home/data/datasources/update_profile_ds.dart';
 import 'package:e_commerce/features/home/data/models/categorie_image_model.dart';
 import 'package:e_commerce/features/home/data/repositories/add_to_cart_data_repo.dart';
 import 'package:e_commerce/features/home/data/repositories/add_to_fav_data_repo.dart';
-import 'package:e_commerce/features/home/data/repositories/get_cart_data_repo.dart';
 import 'package:e_commerce/features/home/data/repositories/get_categories_date_reopo.dart';
 import 'package:e_commerce/features/home/data/repositories/get_fav_data_repo.dart';
 import 'package:e_commerce/features/home/data/repositories/get_prands_data_repo.dart';
 import 'package:e_commerce/features/home/data/repositories/get_prouct_data_repo.dart';
-import 'package:e_commerce/features/home/domain/entities/add_to_cart/data.dart';
+import 'package:e_commerce/features/home/data/repositories/get_user_data_repo.dart';
+import 'package:e_commerce/features/home/data/repositories/update_profile_data_repo.dart';
 import 'package:e_commerce/features/home/domain/entities/fav_entity/datum.dart';
-import 'package:e_commerce/features/home/domain/entities/get_carts_entity/cart_item.dart';
 import 'package:e_commerce/features/home/domain/entities/get_categories_entity/get_categories_entity.dart';
 import 'package:e_commerce/features/home/domain/entities/get_prands/datum.dart';
 import 'package:e_commerce/features/home/domain/entities/product_entity/datum.dart';
+import 'package:e_commerce/features/home/domain/entities/update_data.dart';
+import 'package:e_commerce/features/home/domain/entities/user_entity/data.dart';
 import 'package:e_commerce/features/home/domain/repositories/add_to_cart_domain_repo.dart';
 import 'package:e_commerce/features/home/domain/repositories/add_to_fav.dart';
-import 'package:e_commerce/features/home/domain/repositories/get_cart.dart';
 import 'package:e_commerce/features/home/domain/repositories/get_categories_repo.dart';
 import 'package:e_commerce/features/home/domain/repositories/get_fav_domain_repo.dart';
 import 'package:e_commerce/features/home/domain/repositories/get_prands_repo.dart';
 import 'package:e_commerce/features/home/domain/repositories/get_product_domin_repo.dart';
+import 'package:e_commerce/features/home/domain/repositories/get_user_domain_repo.dart';
+import 'package:e_commerce/features/home/domain/repositories/update_profile_repo.dart';
 import 'package:e_commerce/features/home/domain/usecases/add_to_cart.dart';
 import 'package:e_commerce/features/home/domain/usecases/add_to_fav.dart';
-import 'package:e_commerce/features/home/domain/usecases/get_cart.dart';
 import 'package:e_commerce/features/home/domain/usecases/get_category.dart';
 import 'package:e_commerce/features/home/domain/usecases/get_fav_use_Case.dart';
 import 'package:e_commerce/features/home/domain/usecases/get_prands_use_case.dart';
 import 'package:e_commerce/features/home/domain/usecases/get_product.dart';
+import 'package:e_commerce/features/home/domain/usecases/get_user.dart';
+import 'package:e_commerce/features/home/domain/usecases/update_profile.dart';
 import 'package:e_commerce/features/home/presentation/cubit/home_state.dart';
 import 'package:e_commerce/features/home/presentation/pages/tabs/categories_screen.dart';
 import 'package:e_commerce/features/home/presentation/pages/tabs/home_view.dart';
@@ -49,8 +53,10 @@ class HomeCubit extends Cubit<HomeState> {
   ProductDataSource getProductDataSource;
   GetFavDataSource getFavDataSource;
   AddToFavDataSource addToFavDataSource;
-  CartsDataSource cartsDataSource;
+
   AddToCartDataSource addToCartDataSource;
+  GetUserDataSource getUserDataSource;
+  UpdateProfileDs updateProfileDs;
 
   HomeCubit(
       this.getCategoriesDataSource,
@@ -58,9 +64,10 @@ class HomeCubit extends Cubit<HomeState> {
       this.getFavDataSource,
       this.getProductDataSource,
       this.addToFavDataSource,
-      this.cartsDataSource,
-      this.addToCartDataSource
-  )
+      // this.cartsDataSource,
+      this.addToCartDataSource,
+      this.getUserDataSource,
+      this.updateProfileDs)
       : super(HomeInitial());
 
   static HomeCubit get(context) => BlocProvider.of(context);
@@ -71,12 +78,16 @@ class HomeCubit extends Cubit<HomeState> {
   List<DatumPrandsEntity>? prands = [];
   List<DatumProdcutEntity>? products = [];
   List<DatumFavEntity> favourites = [];
-  List<CartItem> carts = [];
+  UserDataEntity? data;
+
   List<String> images = [
     'assets/images/ad_1.png',
     'assets/images/ad_2.png',
     'assets/images/ad_3.png',
   ];
+  var nameController = TextEditingController();
+  var emailController = TextEditingController();
+  var phoneController = TextEditingController();
 
   List<CategoryImage> menFashion = [
     CategoryImage(
@@ -143,7 +154,7 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Map<int, bool> fav = {};
-  Map<int, bool> cart = {};
+  Map<dynamic, bool>? incart = {};
   getCategory() async {
     emit(HomeLoading());
     GetCategroirsDomainRepo getCategroirsDomainRepo =
@@ -179,15 +190,14 @@ class HomeCubit extends Cubit<HomeState> {
         HomeProductError(l),
       );
     }, (r) {
-      products = r.data!.data ?? [];
+      products = r.data?.data ?? [];
       for (var element in products!) {
         fav.addAll({element.id!: element.inFavorites!});
-        emit(HomeChangeFavorite());
       }
       for (var element in products!) {
-        cart.addAll({element.id!: element.inCart!});
+        incart!.addAll({element.id!: element.inCart!});
       }
-      print(cart.toString());
+      print(incart.toString());
 
       return emit(
         HomeProductSuccess(r),
@@ -235,42 +245,51 @@ class HomeCubit extends Cubit<HomeState> {
     });
   }
 
-
-
-  getCart() async {
-    GetCartsDomainRepo getCartsDomainRepo = GetCartsDataRepo(cartsDataSource);
-    CartsUseCase cartsUseCase = CartsUseCase(getCartsDomainRepo);
-    var result = await cartsUseCase.call();
-    result.fold((l) {
-      return emit(
-        HomeGetCartsError(l),
-      );
-    }, (r) {
-      carts = r.data!.cartItems ?? [];
-
-      return emit(
-        HomeGetCartsSuccess(r),
-      );
-    });
-  }
-
-  addToCart(int id) async {
+  changeCart(int? id, context) async {
     emit(HomeLoading());
-    cart[id] = !cart[id]!;
+
     AddToCartDomainRepo addToCartDomainRepo =
         AddToCartDataRepo(addToCartDataSource);
     AddToCartUseCase addToCartUseCase = AddToCartUseCase(addToCartDomainRepo);
-    var result = await addToCartUseCase.addToCart(id);
+    var result = await addToCartUseCase.call(id!);
     result.fold((l) {
-      cart[id] = !cart[id]!;
       return emit(
         HomeAddToCartError(l),
       );
     }, (r) {
-      
+      CartCubit.get(context).getCart();
       return emit(
         HomeAddToCartSuccess(r),
       );
     });
+  }
+
+  getUserData() async {
+    GetUserDomainRepo getUserDomainRepo = GetUserDataRepo(getUserDataSource);
+    GetUserUseCase getUserUseCase = GetUserUseCase(getUserDomainRepo);
+    var result = await getUserUseCase.call();
+    result.fold((l) {
+      return emit(
+        HomeGetUserError(l),
+      );
+    }, (r) {
+      data = r.data;
+      return emit(
+        HomeGetUserSuccess(r),
+      );
+    });
+  }
+
+  updateProfile() async {
+    UpdateProfileDomainRepo updateProfileDomainRepo =
+        UpdateProfileDataRepo(updateProfileDs);
+    UpdateProfileUseCase updateProfileUseCase =
+        UpdateProfileUseCase(updateProfileDomainRepo);
+    UpdateData userData = UpdateData(
+        name: nameController.text,
+        email: emailController.text,
+        phone: phoneController.text);
+    var result = await updateProfileUseCase.call(userData);
+    result.fold((l) => UpdateUserError(l), (r) => UpdateUserSuccess(r));
   }
 }

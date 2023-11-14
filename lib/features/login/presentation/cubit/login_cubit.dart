@@ -1,6 +1,8 @@
 import 'package:e_commerce/features/login/data/datasources/login_data_source.dart';
 import 'package:e_commerce/features/login/data/repositories/login_data_repo.dart';
 import 'package:e_commerce/features/login/domain/entities/login_data.dart';
+import 'package:e_commerce/features/login/domain/entities/login_entity/data.dart';
+import 'package:e_commerce/features/login/domain/entities/login_entity/login_entity.dart';
 import 'package:e_commerce/features/login/domain/repositories/login_domain_repo.dart';
 import 'package:e_commerce/features/login/domain/usecases/login_use_case.dart';
 import 'package:e_commerce/features/login/presentation/cubit/login_state.dart';
@@ -13,6 +15,7 @@ class LoginCubit extends Cubit<LoginState> {
   static LoginCubit get(context) => BlocProvider.of(context);
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
+
   bool isVisible = true;
   GlobalKey<FormState> fromKey = GlobalKey();
   login() async {
@@ -21,7 +24,9 @@ class LoginCubit extends Cubit<LoginState> {
     LoginData data = LoginData(
         email: emailController.text, password: passwordController.text);
     var result = await loginUseCase.call(data);
-    result.fold((l) => emit(LoginFailed(l)), (r) => emit(LoginSuccess(r)));
+    result.fold((l) => emit(LoginFailed(l)), (r) {
+      emit(LoginSuccess(r));
+    });
   }
 
   changeVisibilty() {

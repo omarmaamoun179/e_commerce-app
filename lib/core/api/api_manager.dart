@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:e_commerce/core/utils/cashe_helper.dart';
 import 'package:e_commerce/core/utils/constant.dart';
 
 class DioHelper {
@@ -12,7 +11,7 @@ class DioHelper {
       {Map<String, dynamic>? query}) async {
     dio.options.headers = {
       'Authorization': Constant.token ?? '',
-      'lang': 'ar',
+      'lang': 'en',
       'Content-Type': 'application/json',
     };
     return await dio.get(
@@ -25,7 +24,7 @@ class DioHelper {
       {Map<String, dynamic>? data}) async {
     dio.options.headers = {
       'Authorization': Constant.token ?? '',
-      'lang': 'ar',
+      'lang': 'en',
       'Content-Type': 'application/json',
     };
     return await dio.post(

@@ -17,7 +17,7 @@ class SignupCubit extends Cubit<SignupState> {
   var nameController = TextEditingController();
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
-  var passwordConfirmationController = TextEditingController();
+  // var passwordConfirmationController = TextEditingController();
   var phoneController = TextEditingController();
   var formKey = GlobalKey<FormState>();
   bool isVisible = true;
@@ -30,7 +30,7 @@ class SignupCubit extends Cubit<SignupState> {
       name: nameController.text,
       email: emailController.text,
       password: passwordController.text,
-      passwordConfirmation: passwordConfirmationController.text,
+      // passwordConfirmation: passwordConfirmationController.text,
       phone: phoneController.text,
     );
     print(data.toString());

@@ -16,6 +16,7 @@ class ProductItem extends StatelessWidget {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         return Container(
+          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 5.h),
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15.r),
@@ -24,134 +25,125 @@ class ProductItem extends StatelessWidget {
           ),
           width: 191.w,
           height: 237.h,
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: SingleChildScrollView(
-              child: Stack(
-                clipBehavior: Clip.none,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
+                  ClipRRect(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15.r),
+                        topRight: Radius.circular(15.r)),
+                    child: Image.network(
+                      model.image ?? "",
+                      height: 128.h,
+                      fit: BoxFit.contain,
+                      width: double.infinity,
+                    ),
+                  ),
+                  Text(
+                    model.name ?? "",
+                    maxLines: 1,
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14.sp,
+                        color: const Color(0xff06004F)),
+                  ),
+                  Text(
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    model.description ?? "",
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14.sp,
+                        color: const Color(0xff06004F)),
+                  ),
+
+                  Row(
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(15.r),
-                            topRight: Radius.circular(15.r)),
-                        child: Image.network(
-                          model.image ?? "",
-                          height: 128.h,
-                          fit: BoxFit.cover,
-                          width: double.infinity,
+                      Text(
+                        overflow: TextOverflow.ellipsis,
+                        'EGP ${model.price}',
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.sp,
+                          color: const Color(0xff06004F),
                         ),
                       ),
-                      Text(
-                        model.name ?? "",
-                        maxLines: 1,
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14.sp,
-                            color: const Color(0xff06004F)),
+                      SizedBox(
+                        width: 16.w,
                       ),
                       Text(
-                        maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        model.description ?? "",
+                        '${model.oldPrice}'.substring(0, 4),
                         style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14.sp,
-                            color: const Color(0xff06004F)),
+                          decoration: TextDecoration.lineThrough,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.sp,
+                          color: const Color(0xff06004F),
+                        ),
                       ),
-
-                      Row(
-                        children: [
-                          Text(
-                            overflow: TextOverflow.ellipsis,
-                            'EGP ${model.price}',
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14.sp,
-                              color: const Color(0xff06004F),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 16.w,
-                          ),
-                          Text(
-                            overflow: TextOverflow.ellipsis,
-                            '${model.oldPrice}'.substring(0, 4),
-                            style: GoogleFonts.poppins(
-                              decoration: TextDecoration.lineThrough,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14.sp,
-                              color: const Color(0xff06004F),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: IconButton(
-                            onPressed: () {
-                            HomeCubit.get(context).addToCart(model.id!);
-                            },
-                            icon: CircleAvatar(
-                              backgroundColor:
-                                HomeCubit.get(context).cart[model.id]!
-                                      ? const Color(0xff004182)
-                                      : Colors.white,
-                              radius: 15.r,
-                              child: const Icon(
-                                Icons.favorite_border,
-                              ),
-                            )),
-                      ),
-                      // ElevatedButton(
-                      //   style: ElevatedButton.styleFrom(
-                      //     backgroundColor:
-                      //         CartCubit.get(context).cart[modelCart!.id]!
-                      //             ? const Color(0xff004182)
-                      //             : Colors.white,
-                      //     shape: RoundedRectangleBorder(
-                      //       borderRadius: BorderRadius.circular(15.r),
-                      //     ),
-                      //   ),
-                      //   onPressed: () {
-                      //     CartCubit.get(context).addToCart(model.id!);
-                      //   },
-                      //   child: const Text(
-                      //     'Add to Cart',
-                      //   ),
-                      // ),
-                      // Text(
-                      //   'Rating (${model.ratingsAverage})   ⭐',
-                      //   style: GoogleFonts.poppins(
-                      //     fontWeight: FontWeight.w400,
-                      //     fontSize: 12.sp,
-                      //     color: const Color(0xff06004F),
-                      //   ),
-                      // ),
                     ],
                   ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: IconButton(
-                        onPressed: () {
-                          HomeCubit.get(context).changeFav(model.id!);
-                        },
-                        icon: CircleAvatar(
-                          backgroundColor: HomeCubit.get(context).fav[model.id]!
-                              ? const Color(0xff004182)
-                              : Colors.white,
-                          radius: 15.r,
-                          child: const Icon(
-                            Icons.favorite_border,
-                          ),
-                        )),
+                  // Expanded(
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.only(bottom: 50),
+                  //     child: Align(
+                  //       alignment: Alignment.topRight,
+                  //       child: IconButton(
+                  //           onPressed: () async {
+                  //             HomeCubit.get(context)
+                  //                 .changeCart(model.id!, context);
+                  //           },
+                  //           icon: CircleAvatar(
+                  //             backgroundColor: Colors.white,
+                  //             radius: 15.r,
+                  //             child: const Icon(
+                  //               Icons.shopping_cart,
+                  //             ),
+                  //           )),
+                  //     ),
+                  //   ),
+                  // ),
+
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: Size(500.w, 100.h),
+                        backgroundColor: const Color(0xff004182),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.r),
+                        ),
+                      ),
+                      onPressed: () {
+                        HomeCubit.get(context).changeCart(model.id!, context);
+                      },
+                      child: const Text(
+                        'Add to Cart',
+                      ),
+                    ),
                   ),
                 ],
               ),
-            ),
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                    onPressed: () {
+                      HomeCubit.get(context).changeFav(model.id!);
+                    },
+                    icon: CircleAvatar(
+                      backgroundColor: HomeCubit.get(context).fav[model.id]!
+                          ? const Color(0xff004182)
+                          : Colors.white,
+                      radius: 15.r,
+                      child: const Icon(
+                        Icons.favorite_border,
+                      ),
+                    )),
+              ),
+            ],
           ),
         );
       },

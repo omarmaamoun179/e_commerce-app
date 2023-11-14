@@ -1,5 +1,4 @@
 import 'package:e_commerce/features/home/domain/entities/product_entity/data.dart';
-import 'package:equatable/equatable.dart';
 
 import 'datum.dart';
 

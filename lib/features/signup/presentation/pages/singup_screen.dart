@@ -113,14 +113,14 @@ class SignUpScreen extends StatelessWidget {
                                 message: 'please enter correct name',
                                 keyboardType: TextInputType.name,
                               ),
-                              SingupWidget(
-                                controller: SignupCubit.get(context)
-                                    .passwordConfirmationController,
-                                txt: "Confirm Password",
-                                hint: 'Confirm your password please',
-                                message: 'does not match',
-                                keyboardType: TextInputType.name,
-                              ),
+                              // SingupWidget(
+                              //   controller: SignupCubit.get(context)
+                              //       .passwordConfirmationController,
+                              //   txt: "Confirm Password",
+                              //   hint: 'Confirm your password please',
+                              //   message: 'does not match',
+                              //   keyboardType: TextInputType.name,
+                              // ),
                               SizedBox(
                                 height: 20.h,
                               ),

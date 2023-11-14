@@ -35,12 +35,15 @@ class LikedScreen extends StatelessWidget {
       builder: (context, state) {
         return HomeCubit.get(context).favourites.isEmpty
             ? Center(
-                child: Text('No Favourites ,\n please add some products',
-                    style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 20.sp,
-                      color: const Color(0xff004182),
-                    )))
+                child: Text(
+                  'No Favourites ,\n please add some products',
+                  style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20.sp,
+                    color: const Color(0xff004182),
+                  ),
+                ),
+              )
             : ListView.separated(
                 separatorBuilder: (context, index) {
                   return SizedBox(

@@ -1,11 +1,12 @@
 import 'package:e_commerce/core/error/failures.dart';
-import 'package:e_commerce/features/home/domain/entities/add_to_cart/add_to_cart.dart';
+import 'package:e_commerce/features/home/domain/entities/add_to_cart_entity/add_to_cart_entity.dart';
 import 'package:e_commerce/features/home/domain/entities/add_to_fav_entity/add_to_fav_entity.dart';
 import 'package:e_commerce/features/home/domain/entities/fav_entity/fav_entity.dart';
-import 'package:e_commerce/features/home/domain/entities/get_carts_entity/get_carts_entity.dart';
 import 'package:e_commerce/features/home/domain/entities/get_categories_entity/get_categories_entity.dart';
 import 'package:e_commerce/features/home/domain/entities/get_prands/get_prands.dart';
 import 'package:e_commerce/features/home/domain/entities/product_entity/product_entity.dart';
+import 'package:e_commerce/features/home/domain/entities/update_user_entity/update_user_entity.dart';
+import 'package:e_commerce/features/home/domain/entities/user_entity/user_entity.dart';
 
 abstract class HomeState {}
 
@@ -77,21 +78,36 @@ class HomeAddToFavError extends HomeState {
   HomeAddToFavError(this.message);
 }
 
-class HomeGetCartsLoading extends HomeState {}
+class HomeAddToCartLoading extends HomeState {}
 
-class HomeGetCartsSuccess extends HomeState {
-  GetCartsEntity getCartsEntity;
-  HomeGetCartsSuccess(this.getCartsEntity);
-}
-class HomeGetCartsError extends HomeState {
-  Falirues message;
-  HomeGetCartsError(this.message);
-}
 class HomeAddToCartSuccess extends HomeState {
-  AddToCartEntity addToCartEntity;
-  HomeAddToCartSuccess(this.addToCartEntity);
+  AddToCartEntity CartEntity;
+  HomeAddToCartSuccess(this.CartEntity);
 }
+
 class HomeAddToCartError extends HomeState {
   Falirues message;
   HomeAddToCartError(this.message);
+}
+
+class HomeGetUserError extends HomeState {
+  Falirues message;
+  HomeGetUserError(this.message);
+}
+
+class HomeGetUserLoading extends HomeState {}
+
+class HomeGetUserSuccess extends HomeState {
+  UserEntity userModel;
+  HomeGetUserSuccess(this.userModel);
+}
+
+class UpdateUserSuccess {
+ UpdateUserEntity userModel;
+  UpdateUserSuccess(this.userModel);
+}
+
+class UpdateUserError {
+  Falirues message;
+  UpdateUserError(this.message);
 }
