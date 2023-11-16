@@ -14,39 +14,36 @@ class TabsConten extends StatelessWidget {
     return BlocConsumer<HomeCubit, HomeState>(
       listener: (context, state) {},
       builder: (context, state) {
-        return GridView.builder(
-          shrinkWrap: true,
-          padding: const EdgeInsets.all(20),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            childAspectRatio: .8,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 25,
-          ),
-          itemCount: HomeCubit.get(context).products!.length - 1,
-          itemBuilder: (context, index) {
-            return Column(
-              children: [
-                Image.network(
-                  HomeCubit.get(context).products![index].image ?? '',
-                  fit: BoxFit.cover,
-                ),
-                Expanded(
-                  child: Text(
-                    maxLines: 1,
-                    HomeCubit.get(context).products![index].name ?? '',
-                    style: TextStyle(
-                      overflow: TextOverflow.ellipsis,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xff004182),
+        return GridView.count(
+            crossAxisCount: 2,
+            childAspectRatio: .6,
+            crossAxisSpacing: 20,
+            mainAxisSpacing: 10,
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(20),
+            scrollDirection: Axis.vertical,
+            children: HomeCubit.get(context).products!.map((e) {
+              return Column(
+                children: [
+                  Image.network(
+                    e.image ?? '',
+                    fit: BoxFit.cover,
+                  ),
+                  Expanded(
+                    child: Text(
+                      maxLines: 1,
+                      e.name ?? '',
+                      style: TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                        color: const Color(0xff004182),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            );
-          },
-        );
+                ],
+              );
+            }).toList());
       },
     );
   }
